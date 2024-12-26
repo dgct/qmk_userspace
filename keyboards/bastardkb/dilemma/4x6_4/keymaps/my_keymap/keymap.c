@@ -120,7 +120,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     dilemma_set_pointer_sniping_enabled(layer_state_cmp(state, DILEMMA_AUTO_SNIPING_ON_LAYER));
     return state;
 }
-#    endif // DILEMMA_AUTO_SNIPING_ON_LAYER
+#    endif // DILEMMA_AUTO_SNIPING_ON_LAYER xcv
+#    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+void pointing_device_init_user(void) {
+    set_auto_mouse_enable(true); // always required before the auto mouse feature will work
+}
+#    endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #endif     // POINTING_DEVICE_ENABLEE
 
 #ifdef RGB_MATRIX_ENABLE
