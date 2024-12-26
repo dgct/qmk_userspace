@@ -27,9 +27,6 @@ enum dilemma_keymap_layers {
 
 // Automatically enable sniping-mode on the pointer layer.
 // #define DILEMMA_AUTO_SNIPING_ON_LAYER LAYER_POINTER
-#undef POINTING_DEVICE_GESTURES_SCROLL_ENABLE
-#define DILEMMA_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-#define DILEMMA_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
