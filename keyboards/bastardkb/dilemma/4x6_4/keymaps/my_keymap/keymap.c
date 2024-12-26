@@ -19,7 +19,7 @@
 
 enum dilemma_keymap_layers {
     LAYER_BASE = 0,
-    LAYER_ALT,
+    //     LAYER_ALT,
     LAYER_LOWER,
     LAYER_RAISE,
     LAYER_POINTER,
