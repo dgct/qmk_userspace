@@ -17,8 +17,24 @@
  */
 #include QMK_KEYBOARD_H
 
-uint16_t ctrl_key;
-uint16_t gui_key;
+#ifdef OS_DETECTION_ENABLE
+uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
+    os_variant_t host     = detected_host_os();
+    uint16_t     retry_ms = 500;
+
+    if (host == OS_MACOS || host == OS_IOS) {
+        keymap_config.swap_lctl_lgui = true;
+        keymap_config.swap_rctl_rgui = true;
+        retry_ms                     = 0;
+    }
+
+    return retry_ms;
+}
+
+void keyboard_post_init_user(void) {
+    defer_exec(100, custom_os_settings, NULL);
+}
+#endif
 
 enum dilemma_keymap_layers {
     LAYER_BASE = 0,
@@ -26,25 +42,6 @@ enum dilemma_keymap_layers {
     LAYER_RAISE,
     LAYER_POINTER,
 };
-
-// Write a QMK code block that detects the OS and sets a variable to KC_LGUI if MACOS else KC_LCTL
-bool process_detected_host_os_kb(os_variant_t detected_os) {
-    if (!process_detected_host_os_user(detected_os)) {
-        return false;
-    }
-    switch (detected_os) {
-        case OS_MACOS:
-            ctrl_key = KC_LGUI;
-            gui_key  = KC_LCTL;
-            break;
-        default:
-            gui_key  = KC_LGUI;
-            ctrl_key = KC_LCTL;
-            break;
-    }
-
-    return true;
-}
 
 // Automatically enable sniping-mode on the pointer layer.
 // #define DILEMMA_AUTO_SNIPING_ON_LAYER LAYER_POINTER
@@ -71,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_LSFT,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,       KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       ctrl_key,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, PT_SLSH, gui_key,
+       KC_LCTL,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, PT_SLSH, KC_LGUI,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                          KC_LALT, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  KC_ENT, KC_DEL,  KC_MUTE
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
@@ -127,7 +124,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     dilemma_set_pointer_sniping_enabled(layer_state_cmp(state, DILEMMA_AUTO_SNIPING_ON_LAYER));
     return state;
 }
-#    endif // DILEMMA_AUTO_SNIPING_ON_LAYER xcv
+#    endif // DILEMMA_AUTO_SNIPING_ON_LAYER
 #    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 void pointing_device_init_user(void) {
     set_auto_mouse_enable(true); // always required before the auto mouse feature will work
@@ -144,9 +141,9 @@ void rgb_matrix_update_pwm_buffers(void);
 // clang-format off
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LAYER_BASE]       = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [LAYER_LOWER]      = {ENCODER_CCW_CW(KC_UP, KC_DOWN), ENCODER_CCW_CW(KC_LEFT, KC_RGHT)},
-    [LAYER_RAISE]      = {ENCODER_CCW_CW(KC_PGUP, KC_PGDN), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [LAYER_POINTER]    = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
+    [LAYER_LOWER]      = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
+    [LAYER_RAISE]      = {ENCODER_CCW_CW(KC_PGUP, KC_PGDN), ENCODER_CCW_CW(KC_HOME, KC_END)},
+    [LAYER_POINTER]    = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
 };
 // clang-format on
 #endif // ENCODER_MAP_ENABLE
