@@ -40,6 +40,7 @@ enum dilemma_keymap_layers {
     LAYER_BASE = 0,
     LAYER_LOWER,
     LAYER_RAISE,
+    LAYER_PROG,
     LAYER_POINTER,
 };
 
@@ -48,8 +49,7 @@ enum dilemma_keymap_layers {
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
-#define PT_Z LT(LAYER_POINTER, KC_Z)
-#define PT_SLSH LT(LAYER_POINTER, KC_SLSH)
+#define PROG MO(LAYER_PROG)
 
 #ifndef POINTING_DEVICE_ENABLE
 #    define DRGSCRL KC_NO
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_LSFT,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,       KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_LCTL,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, PT_SLSH, KC_LGUI,
+       KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_LGUI,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                          KC_LALT, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  KC_ENT, KC_DEL,  KC_MUTE
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
       RGB_RMOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_PAST,   KC_P1,   KC_P2,   KC_P3, KC_PSLS, KC_PDOT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                         XXXXXXX, XXXXXXX, XXXXXXX, _______,    XXXXXXX, _______, XXXXXXX, XXXXXXX
+                         XXXXXXX, XXXXXXX, XXXXXXX, _______,       PROG, _______, XXXXXXX,   KC_P0
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
   ),
 
@@ -98,7 +98,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_MPRV, KC_HOME, KC_PGUP, KC_PGDN,  KC_END, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                         XXXXXXX, _______, _______, XXXXXXX,    _______, XXXXXXX, XXXXXXX, XXXXXXX
+                         XXXXXXX, _______, _______,    PROG,    _______, XXXXXXX, XXXXXXX, XXXXXXX
+  //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
+  ),
+
+  [LAYER_PROG] = LAYOUT(
+  // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_LABK, KC_LCBR, KC_RCBR, KC_RABK, KC_PSLS, KC_CIRC,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     KC_CLN, KC_QUOT, KC_DQUO, KC_SCLN, KC_PAST, KC_PERC,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,     KC_EQL, KC_LPRN, KC_RPRN, KC_HASH, KC_PPLS, KC_PIPE,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_UNDS, KC_LBRC, KC_RBRC, KC_GRV,  KC_PMNS, KC_AMPR,
+  // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
+                         XXXXXXX, XXXXXXX, XXXXXXX, _______,    _______, XXXXXXX, XXXXXXX, XXXXXXX
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
   ),
 
@@ -143,6 +157,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LAYER_BASE]       = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [LAYER_LOWER]      = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
     [LAYER_RAISE]      = {ENCODER_CCW_CW(KC_PGUP, KC_PGDN), ENCODER_CCW_CW(KC_HOME, KC_END)},
+    [LAYER_PROG]    = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [LAYER_POINTER]    = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
 };
 // clang-format on
