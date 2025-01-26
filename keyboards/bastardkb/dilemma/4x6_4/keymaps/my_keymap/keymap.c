@@ -18,7 +18,7 @@
 #include QMK_KEYBOARD_H
 
 enum custom_keycodes {
-    SMTD_KEYCODES_BEGIN = USER00,
+    SMTD_KEYCODES_BEGIN = SAFE_RANGE,
     CKC_A, // reads as C(ustom) + KC_A, but you may give any name here
     CKC_R,
     CKC_S,
@@ -28,12 +28,12 @@ enum custom_keycodes {
     CKC_I,
     CKC_O,
     SMTD_KEYCODES_END,
-    SELWORD,
+    CKC_SELW,
 };
 #include "sm_td.h"
 #include "features/select_word.h"
 
-uint16_t SELECT_WORD_KEYCODE = SELWORD;
+uint16_t SELECT_WORD_KEYCODE = CKC_SELW;
 
 #ifdef OS_DETECTION_ENABLE
 uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,       KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, KC_RALT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                         KC_LALT, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  KC_ENT, KC_DEL,  SELWORD
+                         KC_LALT, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  KC_ENT, KC_DEL, CKC_SELW
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
   ),
 
@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_LGUI,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                         KC_LALT, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  KC_ENT, KC_DEL,  SELWORD
+                         KC_LALT, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  KC_ENT,  KC_DEL, CKC_SELW
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
   ),
 
