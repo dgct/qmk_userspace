@@ -18,7 +18,7 @@
 #include QMK_KEYBOARD_H
 
 enum custom_keycodes {
-    SMTD_KEYCODES_BEGIN = SAFE_RANGE,
+    SMTD_KEYCODES_BEGIN = USER00,
     CKC_A, // reads as C(ustom) + KC_A, but you may give any name here
     CKC_R,
     CKC_S,
