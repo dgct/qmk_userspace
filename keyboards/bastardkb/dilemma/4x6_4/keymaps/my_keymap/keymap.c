@@ -180,10 +180,10 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
         SMTD_MT(CKC_A, KC_A, KC_LGUI)
         SMTD_MT(CKC_R, KC_R, KC_LALT)
-        SMTD_MT(CKC_S, KC_S, KC_LCTRL)
+        SMTD_MT(CKC_S, KC_S, KC_LCTL)
         SMTD_MT(CKC_T, KC_T, KC_LSFT)
         SMTD_MT(CKC_N, KC_N, KC_RSFT)
-        SMTD_MT(CKC_E, KC_E, KC_RCTRL)
+        SMTD_MT(CKC_E, KC_E, KC_RCTL)
         SMTD_MT(CKC_I, KC_I, KC_RALT)
         SMTD_MT(CKC_O, KC_O, KC_RGUI)
     }
