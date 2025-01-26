@@ -160,21 +160,15 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 // clang-format on
 #endif // ENCODER_MAP_ENABLE
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_smtd(keycode, record)) {
-        return false;
+void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
+    switch (keycode) {
+        SMTD_MT(CKC_A, KC_A, KC_LEFT_GUI)
+        SMTD_MT(CKC_R, KC_R, KC_LEFT_ALT)
+        SMTD_MT(CKC_S, KC_S, KC_LEFT_CTRL)
+        SMTD_MT(CKC_T, KC_T, KC_LSFT)
+        SMTD_MT(CKC_N, KC_N, KC_RSFT)
+        SMTD_MT(CKC_E, KC_E, KC_RIGHT_CTRL)
+        SMTD_MT(CKC_I, KC_I, KC_RIGHT_ALT)
+        SMTD_MT(CKC_O, KC_O, KC_RIGHT_GUI)
     }
-    void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
-        switch (keycode) {
-            SMTD_MT(CKC_A, KC_A, KC_LEFT_GUI)
-            SMTD_MT(CKC_R, KC_R, KC_LEFT_ALT)
-            SMTD_MT(CKC_S, KC_S, KC_LEFT_CTRL)
-            SMTD_MT(CKC_T, KC_T, KC_LSFT)
-            SMTD_MT(CKC_N, KC_N, KC_RSFT)
-            SMTD_MT(CKC_E, KC_E, KC_RIGHT_CTRL)
-            SMTD_MT(CKC_I, KC_I, KC_RIGHT_ALT)
-            SMTD_MT(CKC_O, KC_O, KC_RIGHT_GUI)
-        }
-    }
-    return true;
 }
