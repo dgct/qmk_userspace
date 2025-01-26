@@ -17,6 +17,20 @@
  */
 #include QMK_KEYBOARD_H
 
+enum custom_keycodes {
+    SMTD_KEYCODES_BEGIN = SAFE_RANGE,
+    CKC_A, // reads as C(ustom) + KC_A, but you may give any name here
+    CKC_S,
+    CKC_D,
+    CKC_F,
+    CKC_N,
+    CKC_E,
+    CKC_I,
+    CKC_O,
+    SMTD_KEYCODES_END,
+};
+#include "sm_td.h"
+
 #ifdef OS_DETECTION_ENABLE
 uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
     os_variant_t host     = detected_host_os();
@@ -41,7 +55,6 @@ enum dilemma_keymap_layers {
     LAYER_QWERTY,
     LAYER_LOWER,
     LAYER_RAISE,
-    LAYER_POINTER,
 };
 
 // Automatically enable sniping-mode on the pointer layer.
@@ -49,7 +62,6 @@ enum dilemma_keymap_layers {
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
-#define POINT MO(LAYER_POINTER)
 
 #ifndef POINTING_DEVICE_ENABLE
 #    define DRGSCRL KC_NO
@@ -115,20 +127,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          XXXXXXX, _______, _______,   POINT,    _______, XXXXXXX, XXXXXXX, XXXXXXX
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
   ),
-
-  [LAYER_POINTER] = LAYOUT(
-  // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
-  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, _______, DRGSCRL, SNIPING, EE_CLR,  QK_BOOT,    QK_BOOT, EE_CLR,  SNIPING, DRGSCRL, _______, XXXXXXX,
-  // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                         XXXXXXX, KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1, KC_BTN2, XXXXXXX
-  //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
-  ),
 };
 // clang-format on
 
@@ -158,7 +156,25 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LAYER_QWERTY]     = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [LAYER_LOWER]      = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI), ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
     [LAYER_RAISE]      = {ENCODER_CCW_CW(KC_PGUP, KC_PGDN), ENCODER_CCW_CW(KC_HOME, KC_END)},
-    [LAYER_POINTER]    = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
 };
 // clang-format on
 #endif // ENCODER_MAP_ENABLE
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_smtd(keycode, record)) {
+        return false;
+    }
+    void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
+        switch (keycode) {
+            SMTD_MT(CKC_A, KC_A, KC_LEFT_GUI)
+            SMTD_MT(CKC_S, KC_S, KC_LEFT_ALT)
+            SMTD_MT(CKC_D, KC_D, KC_LEFT_CTRL)
+            SMTD_MT(CKC_F, KC_F, KC_LSFT)
+            SMTD_MT(CKC_N, KC_N, KC_RSFT)
+            SMTD_MT(CKC_E, KC_E, KC_RIGHT_CTRL)
+            SMTD_MT(CKC_I, KC_I, KC_RIGHT_ALT)
+            SMTD_MT(CKC_O, KC_O, KC_RIGHT_GUI)
+        }
+    }
+    return true;
+}
