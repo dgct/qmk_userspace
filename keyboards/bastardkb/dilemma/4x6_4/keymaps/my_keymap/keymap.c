@@ -174,7 +174,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
+smtd_resolution on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     os_variant_t host = detected_host_os();
 
     if (host == OS_MACOS || host == OS_IOS) {
@@ -200,4 +200,6 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
             SMTD_MT(CKC_O, KC_O, KC_RGUI)
         }
     }
+
+    return SMTD_RESOLUTION_UNHANDLED;
 }
