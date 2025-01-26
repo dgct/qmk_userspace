@@ -31,6 +31,7 @@ enum custom_keycodes {
     SELWORD,
 };
 #include "sm_td.h"
+#include "select_word.h"
 
 uint16_t SELECT_WORD_KEYCODE = SELWORD;
 
