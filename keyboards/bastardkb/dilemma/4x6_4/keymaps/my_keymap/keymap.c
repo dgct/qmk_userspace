@@ -178,8 +178,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     os_variant_t host = detected_host_os();
-    switch (keycode) {
-        if (host == OS_MACOS || host == OS_IOS) {
+
+    if (host == OS_MACOS || host == OS_IOS) {
+        switch (keycode) {
             SMTD_MT(CKC_A, KC_A, KC_LGUI)
             SMTD_MT(CKC_R, KC_R, KC_LCTL)
             SMTD_MT(CKC_S, KC_S, KC_LALT)
@@ -188,7 +189,9 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
             SMTD_MT(CKC_E, KC_E, KC_RCTL)
             SMTD_MT(CKC_I, KC_I, KC_RALT)
             SMTD_MT(CKC_O, KC_O, KC_RGUI)
-        } else {
+        }
+    } else {
+        switch (keycode) {
             SMTD_MT(CKC_A, KC_A, KC_LCTL)
             SMTD_MT(CKC_R, KC_R, KC_LALT)
             SMTD_MT(CKC_S, KC_S, KC_LGUI)
