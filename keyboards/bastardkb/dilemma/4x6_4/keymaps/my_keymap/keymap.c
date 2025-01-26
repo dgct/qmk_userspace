@@ -160,6 +160,14 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 // clang-format on
 #endif // ENCODER_MAP_ENABLE
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_smtd(keycode, record)) {
+        return false;
+    }
+
+    return true;
+}
+
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
         SMTD_MT(CKC_A, KC_A, KC_LEFT_GUI)
