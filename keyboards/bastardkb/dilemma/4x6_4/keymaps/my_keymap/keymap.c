@@ -33,6 +33,10 @@ enum custom_keycodes {
 
 uint16_t SELECT_WORD_KEYCODE = CKC_SELW;
 
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
+
+const key_override_t *key_overrides[] = {&delete_key_override};
+
 #ifdef OS_DETECTION_ENABLE
 uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
     os_variant_t host     = detected_host_os();
