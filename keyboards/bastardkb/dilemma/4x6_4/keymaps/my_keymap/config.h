@@ -9,7 +9,6 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -26,9 +25,12 @@
 #define DILEMMA_MINIMUM_DEFAULT_DPI 500
 #define DILEMMA_DEFAULT_DPI_CONFIG_STEP 50
 
-#undef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #undef POINTING_DEVICE_GESTURES_SCROLL_ENABLE
 #define CIRQUE_PINNACLE_TAP_ENABLE
+#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+#define AUTO_MOUSE_DEFAULT_LAYER 3
+#define AUTO_MOUSE_TIME 250
+#defin AUTO_MOUSE_THRESHOLD 0
 
 #define TAPPING_TERM 220
 #define MAX_DEFERRED_EXECUTORS 10
