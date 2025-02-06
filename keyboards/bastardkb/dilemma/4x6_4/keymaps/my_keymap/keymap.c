@@ -38,23 +38,19 @@ const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC
 const key_override_t *key_overrides[] = {&delete_key_override};
 
 #ifdef OS_DETECTION_ENABLE
-uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
-    os_variant_t host     = detected_host_os();
-    uint16_t     retry_ms = 500;
+void os_detection_changed_user(os_variant_t os) {
+    // Default to no swapping
+    keymap_config.swap_lctl_lgui = false;
+    keymap_config.swap_rctl_rgui = false;
 
-    if (host == OS_MACOS || host == OS_IOS) {
+    // If we are on macOS/iOS, turn on Cmd/Ctrl swapping
+    if (os == OS_MACOS || os == OS_IOS) {
         keymap_config.swap_lctl_lgui = true;
         keymap_config.swap_rctl_rgui = true;
-        retry_ms                     = 0;
     }
-
-    return retry_ms;
-}
-
-void keyboard_post_init_user(void) {
-    defer_exec(100, custom_os_settings, NULL);
 }
 #endif
+
 
 enum dilemma_keymap_layers {
     LAYER_BASE = 0,
