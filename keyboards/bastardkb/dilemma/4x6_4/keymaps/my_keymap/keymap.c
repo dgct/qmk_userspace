@@ -18,17 +18,9 @@
 #include QMK_KEYBOARD_H
 
 enum custom_keycodes {
-    CKC_A = SAFE_RANGE, // reads as C(ustom) + KC_A, but you may give any name here
-    CKC_R,
-    CKC_S,
-    CKC_T,
-    CKC_N,
-    CKC_E,
-    CKC_I,
-    CKC_O,
-    CKC_SELW,
+    CKC_SELW = SAFE_RANGE,
 };
-#include "sm_td.h"
+
 #include "features/select_word.h"
 
 uint16_t SELECT_WORD_KEYCODE = CKC_SELW;
@@ -50,7 +42,6 @@ void os_detection_changed_user(os_variant_t os) {
     }
 }
 #endif
-
 
 enum dilemma_keymap_layers {
     LAYER_BASE = 0,
@@ -80,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
         KC_TAB,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,       KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN, KC_BSLS,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_LSFT,   CKC_A,   CKC_R,   CKC_S,   CKC_T,    KC_G,       KC_M,   CKC_N,   CKC_E,   CKC_I,   CKC_O, KC_QUOT,
+       KC_LSFT,    KC_A,    KC_R,    KC_S,    KC_T,     KC_G,      KC_M,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,       KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, KC_RALT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
@@ -163,43 +154,9 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 #endif // ENCODER_MAP_ENABLE
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_smtd(keycode, record)) {
-        return false;
-    }
-
     if (!process_select_word(keycode, record)) {
         return false;
     }
 
     return true;
-}
-
-smtd_resolution on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
-    os_variant_t host = detected_host_os();
-
-    if (host == OS_MACOS || host == OS_IOS) {
-        switch (keycode) {
-            SMTD_MT_ON_MKEY(CKC_A, KC_A, KC_LCTL)
-            SMTD_MT_ON_MKEY(CKC_R, KC_R, KC_LALT)
-            SMTD_MT_ON_MKEY(CKC_S, KC_S, KC_LGUI)
-            SMTD_MT_ON_MKEY(CKC_T, KC_T, KC_LSFT)
-            SMTD_MT_ON_MKEY(CKC_N, KC_N, KC_RSFT)
-            SMTD_MT_ON_MKEY(CKC_E, KC_E, KC_RGUI)
-            SMTD_MT_ON_MKEY(CKC_I, KC_I, KC_RALT)
-            SMTD_MT_ON_MKEY(CKC_O, KC_O, KC_RCTL)
-        }
-    } else {
-        switch (keycode) {
-            SMTD_MT_ON_MKEY(CKC_A, KC_A, KC_LGUI)
-            SMTD_MT_ON_MKEY(CKC_R, KC_R, KC_LALT)
-            SMTD_MT_ON_MKEY(CKC_S, KC_S, KC_LCTL)
-            SMTD_MT_ON_MKEY(CKC_T, KC_T, KC_LSFT)
-            SMTD_MT_ON_MKEY(CKC_N, KC_N, KC_RSFT)
-            SMTD_MT_ON_MKEY(CKC_E, KC_E, KC_RCTL)
-            SMTD_MT_ON_MKEY(CKC_I, KC_I, KC_RALT)
-            SMTD_MT_ON_MKEY(CKC_O, KC_O, KC_RGUI)
-        }
-    }
-
-    return SMTD_RESOLUTION_UNHANDLED;
 }
