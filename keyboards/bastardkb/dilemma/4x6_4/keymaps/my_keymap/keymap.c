@@ -30,7 +30,10 @@ const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC
 const key_override_t *key_overrides[] = {&delete_key_override};
 
 #ifdef OS_DETECTION_ENABLE
-void os_detection_changed_user(os_variant_t os) {
+bool process_detected_host_os_kb(os_variant_t detected_os) {
+    if (!process_detected_host_os_user(detected_os)) {
+        return false;
+    }
     // Default to no swapping
     keymap_config.swap_lctl_lgui = false;
     keymap_config.swap_rctl_rgui = false;
@@ -40,6 +43,8 @@ void os_detection_changed_user(os_variant_t os) {
         keymap_config.swap_lctl_lgui = true;
         keymap_config.swap_rctl_rgui = true;
     }
+
+    return true;
 }
 #endif
 
