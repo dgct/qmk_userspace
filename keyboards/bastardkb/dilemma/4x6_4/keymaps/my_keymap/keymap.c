@@ -39,7 +39,7 @@ bool process_detected_host_os_kb(os_variant_t detected_os) {
     keymap_config.swap_rctl_rgui = false;
 
     // If we are on macOS/iOS, turn on Cmd/Ctrl swapping
-    if (os == OS_MACOS || os == OS_IOS) {
+    if (detected_os == OS_MACOS || detected_os == OS_IOS) {
         keymap_config.swap_lctl_lgui = true;
         keymap_config.swap_rctl_rgui = true;
     }
