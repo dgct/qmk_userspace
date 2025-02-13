@@ -3,4 +3,5 @@ ENCODER_MAP_ENABLE = yes
 OS_DETECTION_ENABLE = yes
 DEFERRED_EXEC_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
+DEBOUNCE_TYPE = sym_eager_pr
 SRC += features/select_word.c
