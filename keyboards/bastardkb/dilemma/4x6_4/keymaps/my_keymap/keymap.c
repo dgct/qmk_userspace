@@ -134,6 +134,16 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     dilemma_set_pointer_sniping_enabled(layer_state_cmp(state, DILEMMA_AUTO_SNIPING_ON_LAYER));
     return state;
 }
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    if (!layer_state_cmp(layer_state, LAYER_RAISE)) {
+        mouse_report.x = 0;
+        mouse_report.y = 0;
+        mouse_report.h = 0;
+        mouse_report.v = 0;
+        mouse_report.buttons = 0;
+    }
+    return mouse_report;
+}
 #    endif // DILEMMA_AUTO_SNIPING_ON_LAYER
 #    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 void pointing_device_init_user(void) {
